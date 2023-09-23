@@ -38,7 +38,7 @@ class FlowerClient(fl.client.NumPyClient):
         self.cid = cid
         self.trainloader = trainloader
         self.testloader = testloader
-        self.device = torch.device(cfg.model.device)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.epochs = cfg.client.num_epochs
         self.n_kernels = cfg.model.n_kernels
         self.learning_rate = cfg.model.inner_lr

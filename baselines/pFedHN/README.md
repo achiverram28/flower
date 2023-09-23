@@ -2,14 +2,14 @@
 title: Personalized Federated Learning using Hypernetworks
 url: https://arxiv.org/abs/2103.04628
 labels: ["data heterogenity", "hypernetworks","personalised federated learning",] # please add between 4 and 10 single-word (maybe two-words) labels (e.g. "system heterogeneity", "image classification", "asynchronous", "weight sharing", "cross-silo")
-dataset: MNIST, CIFAR10, CIFAR100 # list of datasets you include in your baseline
+dataset: MNIST, CIFAR-10, CIFAR-100 # list of datasets you include in your baseline
 ---
 
 # *pFedHN*
 
 
 
-****Paper:**** https://arxiv.org/abs/2103.04628
+****Paper:**** [arxiv.org/abs/2103.04628](https://arxiv.org/abs/2103.04628)
 
 ****Authors:**** Aviv Shamsian,Aviv Navon,Ethan Fetaya,Gal Chechik
 
@@ -19,11 +19,11 @@ dataset: MNIST, CIFAR10, CIFAR100 # list of datasets you include in your baselin
 
 ****What’s implemented:**** "The code in the repository reproduces the paper by implementing the concept of hypernetworks which create weights for that target network thus resolving the problems of dataheterogenity.The hypernetworks lies in the server and the clients have the target model. Initially hypernetwork sends the weights from the server which is loaded into the target net . After the targetnet is trained we pass the delta_theta to the client , which inturn updated the phi_gradients for the hypernetwork and the flow goes on."
 
-****Datasets:**** MNIST,CIFAR10,CIFAR100 from torchvision 
+****Datasets:**** MNIST,CIFAR-10,CIFAR-100 from torchvision 
 
 ****Hardware Setup:**** Will be updated
 
-****Contributors:**** :Ram Samarth B B(@achiverram28) , Kishan Gurumurthy(@kishan-droid) , Sachin DN(@sachugowda)
+****Contributors:**** Ram Samarth B B(achiverram28) , Kishan Gurumurthy(kishan-droid) , Sachin DN(sachugowda)
 
 
 ## Experimental Setup
@@ -32,13 +32,13 @@ dataset: MNIST, CIFAR10, CIFAR100 # list of datasets you include in your baselin
 
 ****Model:**** : CNNHyper for the HyperNetwork , CNNTarget For the TargetNetwork
 
-**Dataset:** This baseline includes the MNIST, CIFAR10 , CIFAR100 datasets. By default it will be partitioned into 50 clients following IID distribution. The settings are as follow:
+**Dataset:** This baseline includes the MNIST, CIFAR-10 , CIFAR-100 datasets. By default it will be partitioned into 50 clients following IID distribution. The settings are as follow:
 
 | Dataset | #classes | partitioning method | classes per client |
 | :------ | :---: | :---: | :---: |
 | MNIST | 10 | Non-IID | 2 |
-| CIFAR10 | 10 | Non-IID | 2 |
-| CIFAR10 | 100 | Non-IID | 10 |
+| CIFAR-10 | 10 | Non-IID | 2 |
+| CIFAR-10 | 100 | Non-IID | 10 |
 
 
 ****Training Hyperparameters:**** The following table shows the main hyperparameters for this baseline with their default value (i.e. the value used if you run `python3 main.py` directly)
@@ -57,7 +57,7 @@ dataset: MNIST, CIFAR10, CIFAR100 # list of datasets you include in your baselin
 | HyperNetwork Optimizer | Adam |
 | TargetNetwork Optimizer | SGD with weight decay |
 **Model variations** : The model is flexible to use for images with 1 channel
-and 28x28 dimension , images with 3 channels and 32X32 dimension(for MNIST,CIFAR10 and CIFAR)
+and 28x28 dimension(for MNIST) and images with 3 channels and 32X32 dimension(CIFAR-10 and CIFAR-100)
 | Default channels for the target CNN | 3  |
 | Default outclasses for the target CNN | 10 |
 | Default kernels for the target CNN | 16 |
@@ -69,6 +69,14 @@ and 28x28 dimension , images with 3 channels and 32X32 dimension(for MNIST,CIFAR
 
 To construct the Python environment follow these steps:
 
+### Set Python 3.10
+pyenv local 3.10.6
+
+### Tell poetry to use python 3.10
+poetry env use 3.10.6
+
+### Install your environment
+For installing the following the environment, follow the below commands
 ```bash
 # install the base Poetry environment
 poetry install
@@ -79,15 +87,16 @@ poetry shell
 
 ## Running the Experiments
 
+
 To run this pFedHN, first ensure you have activated your Poetry environment (execute `poetry shell` from this directory), then:
 
 ```bash
-python3 -m pFedHN.main # this will run using the default settings in the `conf/config.yaml` that is for the cifar10
+python3 -m pFedHN.main # this will run using the default settings in the `conf/config.yaml` that is for the cifar-10
 
 python3 -m pFedHN.main dataset.data="mnist" model.n_kernels=7 model
 .in_channels=1 # this will run for the mnist
 
-python3 -m pFedHN.main dataset.data="cifar100" model.out_dim=100 client.num_classes_per_node=10 # this will run for the cifar100
+python3 -m pFedHN.main dataset.data="cifar-100" model.out_dim=100 client.num_classes_per_node=10 # this will run for the cifar-100
 
 ```
 

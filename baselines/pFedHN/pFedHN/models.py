@@ -9,7 +9,6 @@ from torch.nn.utils import spectral_norm
 # Disable protected member warnings for SSL
 # pylint: disable=protected-access
 
-ssl._create_default_https_context = ssl._create_unverified_context
 
 
 # pylint: disable=too-many-instance-attributes
@@ -118,7 +117,16 @@ class CNNHyper(nn.Module):
             self.l3_bias = spectral_norm(self.l3_bias)
 
     def forward(self, idx):
-        """Forward pass of the hypernetwork."""
+        """Forward pass of the hypernetwork.
+
+        Args:
+            idx (Tensor): An index representing an embedding for a specific task or node.
+
+        Returns:
+            OrderedDict: A dictionary containing the weights for convolutional and
+            fully connected layers. Keys correspond to layer names, and values are
+            the computed weights.
+        """
         emd = self.embeddings(idx)
         features = self.mlp(emd)
 
@@ -145,6 +153,7 @@ class CNNHyper(nn.Module):
             )
 
         elif self.in_channels == 1:
+             # This block is for MNIST dataset
             weights = OrderedDict(
                 {
                     "conv1.weight": self.c1_weights(features).view(
@@ -175,7 +184,47 @@ class CNNHyper(nn.Module):
 
 # pylint: disable=too-many-instance-attributes
 class CNNTarget(nn.Module):
-    """Target Network for pFedHN."""
+    """Target Network for pFedHN.
+
+    This class defines the Target Network used in the pFedHN architecture.
+    The Target Network is responsible for processing input data and producing
+    relevant outputs. The architecture of the Target Network depends on the
+    value of 'self.in_channels', which determines whether it is designed for
+    RGB images (3 channels) or grayscale images (1 channel).
+
+    Args:
+        in_channels (int): Number of input channels (1 for grayscale, 3 for RGB).
+        n_kernels (int): Number of convolutional kernels.
+        out_dim (int): Output dimension of the network.
+
+    Attributes:
+        in_channels (int): Number of input channels.
+        conv1 (nn.Conv2d): First convolutional layer.
+        pool (nn.MaxPool2d): Max pooling layer.
+        conv2 (nn.Conv2d): Second convolutional layer.
+        fc1 (nn.Linear): First fully connected layer.
+        fc2 (nn.Linear): Second fully connected layer.
+        fc3 (nn.Linear): Third fully connected layer.
+
+    Methods:
+        forward(x): Performs a forward pass through the network.
+
+    Forward Pass:
+    Depending on the 'in_channels' attribute, this network applies a series of
+    convolutional and fully connected layers to the input data. For RGB images,
+    it includes two convolutional layers ('conv1' and 'conv2') and three fully
+    connected layers ('fc1', 'fc2', and 'fc3'). For grayscale images, an additional
+    convolutional layer ('conv3') is included.
+
+    Input:
+        x (Tensor): Input data tensor of shape (batch_size, channels, height, width).
+
+    Output:
+        Tensor: The output tensor representing the final output of the network.
+        The structure and dimensions of this output tensor depend on the specific
+        architecture defined based on 'in_channels'.
+
+    """
 
     # pylint: disable=too-many-arguments
     def __init__(self, in_channels, n_kernels, out_dim):

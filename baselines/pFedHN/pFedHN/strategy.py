@@ -56,9 +56,10 @@ class pFedHN(fl.server.strategy.Strategy):
         self.cfg = config
         self.evaluate_fn = evaluate_fn
         # Initialising our hnet model in server
+        embedding_dim_comp = self.cfg.client.num_nodes_stratergy_client
         self.hnet = CNNHyper(
             n_nodes=self.cfg.client.num_nodes,
-            embedding_dim=int(1 + self.cfg.client.num_nodes / 4),
+            embedding_dim=embedding_dim_comp,
             in_channels=self.cfg.model.in_channels,
             n_kernels=self.cfg.model.n_kernels,
             out_dim=self.cfg.model.out_dim,
