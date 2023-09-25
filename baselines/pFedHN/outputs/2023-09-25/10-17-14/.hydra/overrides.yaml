@@ -1,0 +1,3 @@
+- dataset.data=cifar-100
+- model.out_dim=100
+- client.num_classes_per_node=10

@@ -8,7 +8,7 @@ from torch.nn.utils import spectral_norm
 
 # Disable protected member warnings for SSL
 # pylint: disable=protected-access
-
+#ssl._create_default_https_context = ssl._create_unverified_context
 
 
 # pylint: disable=too-many-instance-attributes

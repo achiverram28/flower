@@ -91,12 +91,11 @@ poetry shell
 To run this pFedHN, first ensure you have activated your Poetry environment (execute `poetry shell` from this directory), then:
 
 ```bash
-python3 -m pFedHN.main # this will run using the default settings in the `conf/config.yaml` that is for the cifar-10
+python3 -m pFedHN.main # this will run the pFedHN using the default settings in the `conf/config.yaml` that is for the cifar-10
 
-python3 -m pFedHN.main dataset.data="mnist" model.n_kernels=7 model
-.in_channels=1 # this will run for the mnist
+python3 -m pFedHN.main dataset.data="mnist" model.n_kernels=7 model.in_channels=1 # this will run the pFedHN for the mnist
 
-python3 -m pFedHN.main dataset.data="cifar-100" model.out_dim=100 client.num_classes_per_node=10 # this will run for the cifar-100
+python3 -m pFedHN.main dataset.data="cifar-100" model.out_dim=100 client.num_classes_per_node=10 # this will run the pFedHN for the cifar-100
 
 ```
 

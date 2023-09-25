@@ -19,15 +19,15 @@ def get_datasets(data_name, dataroot, normalize=True, val_size=10000):
     val_size: validation split size (in #samples) :return: train_set, val_set, test_set
     (tuple of pytorch dataset/subset).
     """
-    if data_name not in ["mnist", "cifar10", "cifar100"]:
-        raise ValueError("Choose data_name from ['mnist', 'cifar10', 'cifar100']")
+    if data_name not in ["mnist", "cifar10", "cifar-100"]:
+        raise ValueError("Choose data_name from ['mnist', 'cifar-10', 'cifar-100']")
 
     normalization = {
         "mnist": transforms.Normalize((0.1307,), (0.3081,)),
         "cifar10": transforms.Normalize(
             (0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)
         ),
-        "cifar100": transforms.Normalize(
+        "cifar-100": transforms.Normalize(
             (0.5071, 0.4865, 0.4409), (0.2673, 0.2564, 0.2762)
         ),
     }[data_name]
@@ -42,7 +42,7 @@ def get_datasets(data_name, dataroot, normalize=True, val_size=10000):
     dataset = {
         "mnist": MNIST,
         "cifar10": CIFAR10,
-        "cifar100": CIFAR100,
+        "cifar-100": CIFAR100,
     }[
         data_name
     ](dataroot, train=True, download=True, transform=transform)
@@ -50,7 +50,7 @@ def get_datasets(data_name, dataroot, normalize=True, val_size=10000):
     test_set = {
         "mnist": MNIST,
         "cifar10": CIFAR10,
-        "cifar100": CIFAR100,
+        "cifar-100": CIFAR100,
     }[
         data_name
     ](dataroot, train=False, download=True, transform=transform)
